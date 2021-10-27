@@ -8,28 +8,36 @@ require 'yaml'
 CUT_CMD = "\n\n\n\n\u001DV\u0001"
 CONF_FILE = File.expand_path("~/.config/easyprint/easyprint.yaml")
 
-Options = Struct.new(:no_cut, :ip)
+Options = Struct.new(:cut, :ip)
 options = Options.new
+
+if File.exists?(CONF_FILE)
+  conf = YAML.load_file(CONF_FILE)
+  options.ip = conf["IP"]
+  options.cut = conf["CUT"]
+end
 
 OptionParser.new do |opts|
   opts.banner = <<~END
   Usage: #{$PROGRAM_NAME} [options] [args...]
   Print either args or stdin through thermal printer.
+
+  It has a config file is ~/.config/easyprint/easyprint.yaml in the following format:
+
+  ---
+  IP: 192.168.0.5
+  CUT: true
+
   END
 
-  opts.on("-n", "Don't cut after printing") do
-    options.no_cut = true
+  opts.on("-c", "--[no-]cut", "Cut after printing") do |cut|
+    options.cut = cut
   end
 
   opts.on("-iIP", "--ip=IP", "Printer IP address") do |ip|
     options.ip = ip
   end
 end.parse!
-
-if File.exists?(CONF_FILE)
-  conf = YAML.load_file(CONF_FILE)
-  options.ip = conf["IP"]
-end
 
 socket = TCPSocket.new(options.ip, 9100)
 
@@ -41,6 +49,6 @@ else
   socket.write(ARGV.join(' ') + "\n")
 end
 
-unless options.no_cut
+if options.cut
   socket.write(CUT_CMD)
 end

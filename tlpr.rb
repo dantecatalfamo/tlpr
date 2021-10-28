@@ -6,7 +6,7 @@ require 'optparse'
 require 'yaml'
 
 CUT_CMD = "\n\n\n\n\u001DV\u0001"
-CONF_FILE = File.expand_path('~/.config/easyprint/easyprint.yaml')
+CONF_FILE = File.expand_path('~/.config/tlpr/tlpr.yaml')
 
 Options = Struct.new(:cut, :ip, :file)
 options = Options.new

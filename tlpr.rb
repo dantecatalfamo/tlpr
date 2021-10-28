@@ -21,11 +21,11 @@ end
 
 OptionParser.new do |opts|
   opts.banner = <<~BANNER
-    Usage: #{$PROGRAM_NAME} [options] [args...]
+    Usage: tlpr [options] [args...]
 
     Thermal Line Printer application.
     Print either args or stdin, or file through thermal printer.
-    The configuration file is located at #{CONF_FILE}
+    The configuration file is located at $HOME/.config/tlpr/tlpr.yaml
   BANNER
 
   opts.on('-c', '--[no-]cut', 'Cut after printing') do |cut|

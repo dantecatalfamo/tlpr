@@ -1,0 +1,13 @@
+* tlpr
+  Thermal Line Printer command.
+
+  #+begin_src
+  Usage: tlpr [options] [args...]
+
+  Print either args or stdin, or file through thermal printer.
+  The configuration file is located at $HOME/.config/tlpr/tlpr.yaml
+      -c, --[no-]cut                   Cut after printing
+      -i, --ip=IP                      Printer IP address
+      -f, --file=FILE                  Print the contents of FILE
+          --example-config             Print an example configuration to stdout
+  #+end_src

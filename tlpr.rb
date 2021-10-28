@@ -13,14 +13,17 @@ options = Options.new
 
 if File.exist?(CONF_FILE)
   conf = YAML.load_file(CONF_FILE)
-  options.ip = conf['IP']
-  options.cut = conf['CUT']
+  if conf.is_a?(Hash)
+    options.ip = conf['IP']
+    options.cut = conf['CUT']
+  end
 end
 
 OptionParser.new do |opts|
   opts.banner = <<~BANNER
     Usage: #{$PROGRAM_NAME} [options] [args...]
 
+    Thermal Line Printer application.
     Print either args or stdin, or file through thermal printer.
     The configuration file is located at #{CONF_FILE}
   BANNER
